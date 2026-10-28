@@ -39,7 +39,7 @@ class TasksRepository:
     async def update_task(self, task_id:int, task: CreateOrUpdateTask) -> Task | None:
         with self.db.connect() as conn:
             cursor = conn.cursor()
-            cursor.execute("UPDATE tasks SET task_name = ?, description = ?, date = ?, is_active = ?", (task.task_name, task.description, task.datem, task.is_active,))
+            cursor.execute("UPDATE tasks SET task_name = ?, description = ?, date = ?, is_active = ?", (task.task_name, task.description, task.date, task.is_active,))
             if cursor.rowcount == 0:
                 return None
             return Task(id_=task_id, task_name=task.task_name, description=task.description, date=task.date, is_active=task.is_active)
