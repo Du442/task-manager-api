@@ -37,12 +37,13 @@ class DBLocal():
         with self.connect() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-            CREATE TABLE IF NOT EXISTS tasks (
+            CREATE TABLE tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 task_name VARCHAR(255) NOT NULL,
                 description TEXT,
                 date DATETIME,
-                is_active BOOLEAN NOT NULL
+                is_active BOOLEAN NOT NULL,
+                priority INTEGER NOT NULL
             )
 """)
         print("Banco de dados iniciado.")

@@ -7,11 +7,13 @@ class Task(BaseModel):
     description: str
     date: datetime
     is_active: bool
+    priority: int
 
 class CreateOrUpdateTask(BaseModel):
     task_name: str
     description: str
     date: datetime
     is_active: bool
+    priority: int
 
 # -- Modelos das tarefas com Pydantic --

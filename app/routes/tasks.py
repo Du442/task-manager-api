@@ -14,6 +14,7 @@ router = APIRouter(
 @router.get("/", response_model=list[Task])
 async def list_tasks(task_repository: Annotated[TasksRepository,
                                                 Depends(catch_task_repository)]):
+    
     return await task_repository.list_tasks()
 
 # Rota de pesquisa de uma tarefa em especifico com base no id da tarefa
@@ -28,6 +29,32 @@ async def search_task(task_id: int,
         raise HTTPException(status_code=404, detail="Task not found")
     
     return task
+
+# Rota de filtragem por prioridade de tarefa
+@router.get("/{task_priority}", response_model=list[Task] | None)
+async def list_tasks_by_priority(task_repo: Annotated[TasksRepository,
+                                                      Depends(catch_task_repository)],
+                                  task_priority: int):
+    
+    tasks = await task_repo.search_task_by_priority(task_priority)
+    
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+
+    return tasks
+
+# Rota de filtragem por status de tarefa
+@router.get("/{task_status}", response_model=list[Task] | None)
+async def list_tasks_by_status(task_repo: Annotated[TasksRepository,
+                                                      Depends(catch_task_repository)],
+                                  task_status: bool):
+
+    tasks = await task_repo.search_task_by_status(task_status)
+
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+
+    return tasks
 
 # Rota de Criação de tarefa
 @router.post("/", response_model=Task, status_code=201)
