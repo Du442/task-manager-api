@@ -37,7 +37,7 @@ class DBLocal():
         with self.connect() as conn:
             cursor = conn.cursor()
             cursor.execute("""
-            CREATE TABLE tasks (
+            CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 task_name VARCHAR(255) NOT NULL,
                 description TEXT,
