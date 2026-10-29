@@ -14,3 +14,5 @@ def catch_task_repository(
                            Depends(catch_db)]
 ) -> TasksRepository:
     return TasksRepository(db_local)
+
+# -- repositório centralizado para funções e classes de injeção de dependência --

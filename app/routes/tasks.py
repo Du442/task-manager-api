@@ -5,15 +5,18 @@ from app.models.task import Task, CreateOrUpdateTask
 from app.schemas.task import TasksRepository
 from app.dependencies import catch_task_repository
 
+# Definição do router
 router = APIRouter(
     prefix="/tasks"
 )
 
+# Rota de listagem geral das tarefas
 @router.get("/", response_model=list[Task])
 async def list_tasks(task_repository: Annotated[TasksRepository,
                                                 Depends(catch_task_repository)]):
     return await task_repository.list_tasks()
 
+# Rota de pesquisa de uma tarefa em especifico com base no id da tarefa
 @router.get("/{task_id}", response_model=Task | None)
 async def search_task(task_id: int,
                       task_repository: Annotated[TasksRepository,
@@ -26,6 +29,7 @@ async def search_task(task_id: int,
     
     return task
 
+# Rota de Criação de tarefa
 @router.post("/", response_model=Task, status_code=201)
 async def add_task(task_repository: Annotated[TasksRepository,
                                               Depends(catch_task_repository)],
@@ -33,6 +37,7 @@ async def add_task(task_repository: Annotated[TasksRepository,
 
     return await task_repository.add_task(task=task)
 
+# Rota de Atualizar uma tarefa em especifico através do ID
 @router.put("/{task_id}", response_model=Task | None)
 async def update_task(task_repository: Annotated[TasksRepository,
                                               Depends(catch_task_repository)],
@@ -46,6 +51,7 @@ async def update_task(task_repository: Annotated[TasksRepository,
 
     return task
 
+# Rota de deletar uma tarefa em especifico através do ID
 @router.delete("/{task_id}", status_code=204)
 async def delete_task(task_repository: Annotated[TasksRepository,
                                               Depends(catch_task_repository)],
