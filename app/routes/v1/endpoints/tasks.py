@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
 
-from app.models.task import Task, CreateOrUpdateTask
-from app.schemas.task import TasksRepository
+from app.schemas.task import Task, CreateOrUpdateTask
+from app.repositories.task import TasksRepository
 from app.dependencies import catch_task_repository
 
 # Definição do router
@@ -31,7 +31,7 @@ async def search_task(task_id: int,
     return task
 
 # Rota de filtragem por prioridade de tarefa
-@router.get("/{task_priority}", response_model=list[Task] | None)
+@router.get("/priority/{task_priority}", response_model=list[Task])
 async def list_tasks_by_priority(task_repo: Annotated[TasksRepository,
                                                       Depends(catch_task_repository)],
                                   task_priority: int):
@@ -44,7 +44,7 @@ async def list_tasks_by_priority(task_repo: Annotated[TasksRepository,
     return tasks
 
 # Rota de filtragem por status de tarefa
-@router.get("/{task_status}", response_model=list[Task] | None)
+@router.get("/status/{task_status}", response_model=list[Task] | None)
 async def list_tasks_by_status(task_repo: Annotated[TasksRepository,
                                                       Depends(catch_task_repository)],
                                   task_status: bool):
