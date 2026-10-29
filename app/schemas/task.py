@@ -1,10 +1,12 @@
 from app.models.task import Task, CreateOrUpdateTask
 from app.db_local.db import DBLocal
 
+# Classe na qual será utilizado nas rotas para fazer consultas / adição / atualização / deleção diretamente do banco de dados.
 class TasksRepository:
     def __init__(self, db: DBLocal):
         self.db = db
 
+    # Responsavel por listar todas as tarefas através do select * from tasks
     async def list_tasks(self) -> list[Task]:
         with self.db.connect() as conn:
             cursor = conn.cursor()
@@ -20,6 +22,7 @@ class TasksRepository:
             ]
             return tasks
 
+    # Responsavel pela pesquisa de uma tarefa em especifico através do ID direto por código em sql
     async def search_task(self, task_id: int) -> Task | None:
         with self.db.connect() as conn:
             cursor = conn.cursor()
@@ -29,6 +32,7 @@ class TasksRepository:
                 return Task(id_=row[0], task_name=row[1], description=row[2], date=row[3], is_active=row[4])
             return None
 
+    # Responsavel por adicionar uma tarefa no banco de dados.
     async def add_task(self, task: CreateOrUpdateTask) -> Task:
         with self.db.connect() as conn:
             cursor = conn.cursor()
@@ -36,6 +40,7 @@ class TasksRepository:
             task_id = cursor.lastrowid
             return Task(id_=task_id, task_name=task.task_name, description=task.description, date=task.date, is_active=task.is_active)
 
+    # Responsavel por atualizar uma tarefa em espeficifico através do ID de uma tarefa
     async def update_task(self, task_id:int, task: CreateOrUpdateTask) -> Task | None:
         with self.db.connect() as conn:
             cursor = conn.cursor()
@@ -44,7 +49,7 @@ class TasksRepository:
                 return None
             return Task(id_=task_id, task_name=task.task_name, description=task.description, date=task.date, is_active=task.is_active)
 
-
+    # Responsável por deletar uma tarefa em especifico através do ID de uma tarefa
     async def delete_task(self, task_id: int) -> bool | None:
         with self.db.connect() as conn:
             cursor = conn.cursor()

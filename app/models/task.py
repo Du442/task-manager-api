@@ -13,3 +13,5 @@ class CreateOrUpdateTask(BaseModel):
     description: str
     date: datetime
     is_active: bool
+
+# -- Modelos das tarefas com Pydantic --
