@@ -42,7 +42,8 @@ class DBLocal():
                 task_name VARCHAR(255) NOT NULL,
                 description TEXT,
                 date DATETIME,
-                is_active BOOLEAN NOT NULL
+                is_active BOOLEAN NOT NULL,
+                priority INTEGER NOT NULL
             )
 """)
         print("Banco de dados iniciado.")

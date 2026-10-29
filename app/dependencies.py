@@ -2,7 +2,7 @@ from fastapi import Depends
 from typing import Annotated
 
 from app.db_local.db import DBLocal
-from app.schemas.task import TasksRepository
+from app.repositories.task import TasksRepository
 
 db = DBLocal()
 
